@@ -9,17 +9,35 @@ import BootstrapNavbar from './BootstrapNavbar';
 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchText: ""
+        }
+        this.handleSearch = this.handleSearch.bind(this)
+    }
 
-  render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <BootstrapNavbar />
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
+    handleSearch(searchTextFromChild){
+        this.setState({
+            searchText: searchTextFromChild
+        });
+        this.props.router.push('/search/' + encodeURI(searchTextFromChild));
+    }
+
+    componentDidMount() {
+        console.log(this.props.router)
+    }
+
+	render() {
+		return (
+			<div className="container">
+				<div className="row">
+                    <BootstrapNavbar functionFromParent={this.handleSearch} />
+                    {this.props.children}
+				</div>
+			</div>
+		);
+	}
 }
 
 export default App;
